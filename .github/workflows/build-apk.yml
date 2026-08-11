@@ -15,7 +15,14 @@ jobs:
         run: |
           rm -rf android-build
           mkdir android-build
+      - name: Comprobar archivos
+        run: |
+          pwd
+          ls -lah
+          test -f MetodoEmocionalNumerico_Android_V88_AZUL.zip
           
+      - name: Descomprimir proyecto
+        run: |   
           unzip -q MetodoEmocionalNumerico_Android_V88_AZUL.zip -d android-build
       - name: Configurar Java 17
         uses: actions/setup-java@v5
