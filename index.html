@@ -300,33 +300,57 @@ html,body,input,select,textarea,button{
 #homeWord,
 #homeWord:focus,
 #homeWord:active{
-  transform:translateY(2px)!important;
-}
-</style>
-
-<style id="main-search-vertical-adjust-2">
-#homeWord,
-#homeWord:focus,
-#homeWord:active{
-  transform:translateY(5px)!important;
-}
-</style>
-
-<style id="main-search-vertical-adjust-3">
-#homeWord,
-#homeWord:focus,
-#homeWord:active{
-  transform:translateY(9px)!important;
-}
-</style>
-
-<style id="main-search-vertical-adjust-4">
-#homeWord,
-#homeWord:focus,
-#homeWord:active{
   transform:translateY(12px)!important;
 }
 </style>
+
+<style id="internal-blue-theme-v89">
+/* V89 — interior in blue tones, text in black */
+.page{
+  background:#dff3ff!important;
+  color:#000!important;
+}
+.page-head h2{
+  color:#000!important;
+}
+.page .back,
+.page .back:before{
+  color:#000!important;
+}
+.page .card,
+.page .hit{
+  background:#f2f9ff!important;
+  color:#000!important;
+  border-color:#b8d9ee!important;
+}
+.page .action{
+  background:#cfeaff!important;
+  color:#000!important;
+  border-color:#8fc3e6!important;
+}
+.page .badge{
+  background:#d9efff!important;
+  color:#000!important;
+  border-color:#9bcbe8!important;
+}
+.page input,
+.page select,
+.page textarea{
+  background:#ffffff!important;
+  color:#000!important;
+  border-color:#9fc9e3!important;
+}
+.page .result,
+.page .alt{
+  background:#e3f4ff!important;
+  color:#000!important;
+  border-color:#a8d1e8!important;
+}
+.page a{
+  color:#000!important;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -339,7 +363,7 @@ html,body,input,select,textarea,button{
 <button class="hot christmas-history-card" onclick="showPage('arc')" aria-label="Historial de Navidad"></button>
 <button class="hot hist-card" onclick="showPage('hist')" aria-label="Historial"></button>
 <button class="hot lot-card" onclick="showPage('lot')" aria-label="Sorteos de Navidad"></button>
-<button class="hot all-card" onclick="showPage('lot');setTimeout(()=>analyzeAll(),60)" aria-label="Analizar todo"></button>
+<button class="hot all-card" onclick="showPage('all');setTimeout(()=>analyzeAll(),60)" aria-label="Analizar todo"></button>
 <button class="hot info-card" onclick="showPage('info')" aria-label="Sobre el método"></button>
 <button class="hot mirror-card" onclick="showPage('mirror')" aria-label="Modo Espejo"></button>
 </section>
@@ -360,6 +384,15 @@ html,body,input,select,textarea,button{
 <div class="card"><div id="history"></div><button class="action" onclick="clearHistory()">Borrar historial</button></div>
 </section>
 
+
+<section id="all" class="page hidden">
+<div class="page-head"><button class="back" onclick="showHome()">← Inicio</button><h2>📊 Analizar todo</h2></div>
+<div class="card">
+<p class="note">Analiza todo el historial guardado contra todos los sorteos y grandes premios incorporados.</p>
+<div id="allOut"></div>
+</div>
+</section>
+
 <section id="lot" class="page hidden">
 <div class="page-head"><button class="back" onclick="showHome()">← Inicio</button><h2>🏆 Sorteos de Navidad</h2></div>
 <div class="card">
@@ -367,8 +400,7 @@ html,body,input,select,textarea,button{
 <p class="note">Consulta coincidencias directas y Modo Espejo.</p>
 <label>Año</label><select id="year"></select>
 <button class="action" onclick="checkYear()">COMPROBAR MI HISTORIAL</button>
-<button class="action" onclick="analyzeAll()">📊 ANALIZAR TODO</button>
-<div id="lotOut"></div><div id="allOut"></div>
+<div id="lotOut"></div>
 </div>
 <div class="card"><h3>🔎 Buscar una palabra</h3><label>Palabra</label><input id="searchWord" placeholder="Ejemplo: FUEGO"><button class="action" onclick="searchWord()">BUSCAR COINCIDENCIAS</button><div id="searchOut"></div></div>
 </section>
@@ -743,6 +775,7 @@ function showPage(id){
  if(el) el.classList.remove("hidden");
  window.scrollTo(0,0);
  if(id==="hist" && typeof renderHistory==="function") renderHistory();
+  if(id==="all" && typeof analyzeAll==="function") setTimeout(()=>analyzeAll(),20);
 }
 function tab(id){showPage(id)}
 function calculateHome(){
@@ -757,30 +790,6 @@ document.getElementById("homeWord").addEventListener("keydown",e=>{
 });
 
 
-function showHome(){
- document.querySelectorAll(".page").forEach(e=>e.classList.add("hidden"));
- document.getElementById("home").classList.remove("hidden");
- window.scrollTo(0,0);
-}
-function showPage(id){
- document.getElementById("home").classList.add("hidden");
- document.querySelectorAll(".page").forEach(e=>e.classList.add("hidden"));
- const el=document.getElementById(id);
- if(el) el.classList.remove("hidden");
- window.scrollTo(0,0);
- if(id==="hist" && typeof renderHistory==="function") renderHistory();
-}
-function tab(id){showPage(id)}
-function calculateHome(){
- const v=document.getElementById("homeWord").value.trim();
- if(!v){document.getElementById("homeWord").focus();return}
- document.getElementById("word").value=v;
- showPage("calc");
- setTimeout(()=>calculate(),20);
-}
-document.getElementById("homeWord").addEventListener("keydown",e=>{
- if(e.key==="Enter") calculateHome();
-});
 </script>
 
 <script id="black-input-guard">
